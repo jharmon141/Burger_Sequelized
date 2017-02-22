@@ -1,0 +1,19 @@
+.jumbotron {
+    background-image: url("../img/hamburger-animated-gif-4.gif");
+    background-color: white;
+}
+
+.btn-success, .btn-danger {
+    margin-top: 20px;
+}
+
+.btn {
+    width: 100px;
+    height: 35px;
+    font-size: 15px;
+}
+
+h1 {
+    margin-bottom: 50px;
+    margin-top: 25px;
+}

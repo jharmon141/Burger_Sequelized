@@ -1,0 +1,27 @@
+{
+  "name": "burger_sequelized",
+  "version": "1.0.0",
+  "description": "Eat-da-burger app made with Handlebars template and MySQL Database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jharmon141/Burger_Sequelized.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jharmon141/Burger_Sequelized/issues"
+  },
+  "homepage": "https://github.com/jharmon141/Burger_Sequelized#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "method-override": "^2.3.7",
+    "sequelize": "^3.30.2"
+  }
+}
