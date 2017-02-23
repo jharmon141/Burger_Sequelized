@@ -2,18 +2,17 @@ var express = require("express");
 
 var router = express.Router();
 
-// Import the model (burger.js) to use its database functions.
-var db = require("../models");
+var db = require("../models/burger.js");
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-    db.Burgers.findAll({}).then(function(dbburger) {
+    db.Burger.findAll({}).then(function(dbburger) {
       res.json(dbburger);
     });
 });
 
 router.post("/", function(req, res) {
-    db.Burgers.create({
+    db.Burger.create({
       burger_name: req.body.burger_name,
     }).then(function(dbburger) {
       res.json(dbburger);
@@ -21,7 +20,7 @@ router.post("/", function(req, res) {
 });
 
 router.put("/:id", function(req, res) {
- db.Burgers.update({
+ db.Burger.update({
     devoured:1
     },{where:{
         id:req.params.id
@@ -32,7 +31,7 @@ router.put("/:id", function(req, res) {
 });
 
 router.delete("/:id", function(req, res) {
-    db.Burgers.destroy({
+    db.Burger.destroy({
       where: {
         id: req.params.id
       }
