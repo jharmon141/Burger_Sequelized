@@ -1,2 +1,2 @@
 # Burger
-Eat-da-burger app made with Handlebars template and MySQL Database
+Eat-da-burger app made with Handlebars template and MySQL/Sequelize Database
