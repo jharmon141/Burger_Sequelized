@@ -1,44 +1,56 @@
-var express = require("express");
-
+//dependencies
+var express = require('express');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
 var router = express.Router();
+var models = require('../models');
 
-var db = require("../models/burger.js");
 
-// Create all our routes and set up logic within those routes where required.
-router.get("/", function(req, res) {
-    db.Burger.findAll({}).then(function(dbburger) {
-      res.json(dbburger);
-    });
+//when directed to Burger route, get burger.js logic, call functions within it. 
+router.get('/', function(req, res) {
+    models.Burger.findAll().then(function(data){
+    var hbsObject = {
+      burgers: data
+    };
+    console.log(hbsObject);
+    res.render("index", hbsObject);
+  });
 });
 
-router.post("/", function(req, res) {
-    db.Burger.create({
-      burger_name: req.body.burger_name,
-    }).then(function(dbburger) {
-      res.json(dbburger);
-    });
+router.post('/', function(req, res) {
+     models.Burger.create({
+        burger_name: req.body.burger_name,
+        devoured: 0
+     }).then(function(){
+    res.redirect("/");
+     });
 });
 
-router.put("/:id", function(req, res) {
- db.Burger.update({
+router.put('/:id', function(req, res) {
+    //tableName, column, ID, callback
+   models.Burger.update({
     devoured:1
     },{where:{
         id:req.params.id
     }}
    ).then(function(){
-        res.redirect('/burgers');
+        res.redirect('/');
    });
 });
 
-router.delete("/:id", function(req, res) {
-    db.Burger.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(dbburger) {
-      res.json(dbburger);
-    });
+router.delete('/:id', function(req, res) {
+    //run burger.js logic of deleteOne(table,id,callback)
+    models.Burger.destroy(
+        {where:{
+            id:req.params.id
+        }}).then(function(){
+            res.redirect("/");
+        });
 });
 
-// Export routes for server.js to use.
+//initial load/direct
+router.use(function(req, res) {
+    res.redirect('/');
+});
+//export
 module.exports = router;

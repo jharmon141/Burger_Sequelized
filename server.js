@@ -1,36 +1,29 @@
-// *****************************************************************************
-// Server.js - This file is the initial starting point for the Node/Express server.
-//
-// ******************************************************************************
-// *** Dependencies
-// =============================================================
-var express = require("express");
-var bodyParser = require("body-parser");
-
-// Sets up the Express App
-// =============================================================
+var express = require('express');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
 var app = express();
-var PORT = process.env.PORT || 8080;
-
-// Requiring our models for syncing
 var db = require("./models");
 
-// Sets up the Express app to handle data parsing
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+//serve up public folder and all content as static files to server.
+app.use(express.static('public'));
+//use bodyParser, do not encode url
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
+//require handlebars
+var exphbs = require('express-handlebars');
+//use handlebars engine as template engine, use 'main' as our base file
+app.engine('handlebars', exphbs({
+	defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
 
-// Static directory
-app.use(express.static("./public"));
+//link to burger controller, set as default page"/"
+var routes = require('./controllers/burgers_controller.js');
+app.use('/', routes);
+//listen on port, if undefined, use 3000
+app.listen(process.env.PORT || 3000);
 
-// Routes =============================================================
-
-require("./controllers/burgers_controller.js")(app);
-
-// Syncing our sequelize models and then starting our express app
-db.sequelize.sync().then(function() {
-  app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-  });
-});
+db.sequelize.sync();
